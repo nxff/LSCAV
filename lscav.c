@@ -71,7 +71,7 @@ int main(int argc, char** argv)
             } else {
                 dflag++;
                 printf("\n---\n\nWARNING: Option was not recognized or used: %c\n", optopt); 
-                // redirect to Global Variable
+                // redirect to Global Variable /
             }
         }
     }
