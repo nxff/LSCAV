@@ -23,16 +23,18 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 void print_usage()
 {
     printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
-    exit(2);
 }
 
 int main(int argc, char** argv)
 
 {
+
+    // If there are no arguments, print the default usage message and exit
 
     if (argc < 2) {
         print_usage();
@@ -41,11 +43,13 @@ int main(int argc, char** argv)
 
     opterr = 0; // No Default Error Message
 
-    int option;
+    int option = 0;
 
-    int uflag = 0, gflag = 0, dflag = 0; // Argument Flags
+    int uflag = 0, gflag = 0, dflag = 0; // Argument Flags (Including Default Flag)
 
-    while ((option = getopt(argc, argv, "ug")) != -1)
+    char str[80]; // Default Message
+
+    while ((option = getopt(argc, argv, "-:ug")) != -1)
 
     {
 
@@ -73,13 +77,12 @@ int main(int argc, char** argv)
             if (dflag) {
             } else {
                 dflag++;
-                printf("\n---\n\nWARNING: Option was not recognized or used: %c\n", optopt);
-                // redirect to Global Variable
+                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n", optopt);
             }
         }
     }
 
-    printf("\n");
+    puts(str); // Print the unrecognized option if any exist
 
     return 0;
 }
