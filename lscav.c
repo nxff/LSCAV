@@ -23,11 +23,27 @@
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/utsname.h>
 #include <unistd.h>
 
 void print_usage()
 {
     printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
+}
+
+void kernel_info()
+{
+    struct utsname uts;
+
+    if (uname(&uts) < 0)
+        perror("uname() error");
+    else {
+        printf("OS:            %s\n", uts.sysname);
+        printf("Hostname:      %s\n", uts.nodename);
+        printf("Release:       %s\n", uts.release);
+        printf("Version:       %s\n", uts.version);
+        printf("Architecture:  %s\n", uts.machine);
+    }
 }
 
 int main(int argc, char** argv)
@@ -45,17 +61,26 @@ int main(int argc, char** argv)
 
     int option = 0;
 
-    int uflag = 0, gflag = 0, dflag = 0; // Argument Flags (Including Default Flag)
+    int uflag = 0, gflag = 0, dflag = 0, kflag = 0; // Argument Flags (Including Default Flag)
 
     char str[80]; // Default Message
 
-    while ((option = getopt(argc, argv, "-:ug")) != -1)
+    while ((option = getopt(argc, argv, "-:kug")) != -1)
 
     {
 
         switch (option)
 
         {
+
+        case 'k':
+            if (kflag) {
+            } else {
+                kflag++;
+                printf ("\n");
+                kernel_info();
+            }
+            break;
 
         case 'u':
             if (uflag) {
