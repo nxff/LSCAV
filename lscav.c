@@ -24,31 +24,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+void print_usage()
+{
+    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
+    exit(2);
+}
+
 int main(int argc, char** argv)
 
 {
+
+    if (argc < 2) {
+        print_usage();
+        exit(1);
+    }
+
     opterr = 0; // No Default Error Message
 
     int option;
 
-    int uflag = 0, gflag = 0, hflag = 0, dflag = 0; // Argument Flags
+    int uflag = 0, gflag = 0, dflag = 0; // Argument Flags
 
-    while ((option = getopt(argc, argv, "ugh")) != -1)
+    while ((option = getopt(argc, argv, "ug")) != -1)
 
     {
 
         switch (option)
 
         {
-
-        case 'h':
-            if (hflag) {
-            } else {
-                hflag++;
-                printf("\nUsage: %s [-h Help] [-u Users] [-g Groups]\n", argv[0]);
-            }
-
-            break;
 
         case 'u':
             if (uflag) {
@@ -70,13 +73,13 @@ int main(int argc, char** argv)
             if (dflag) {
             } else {
                 dflag++;
-                printf("\n---\n\nWARNING: Option was not recognized or used: %c\n", optopt); 
-                // redirect to Global Variable /
+                printf("\n---\n\nWARNING: Option was not recognized or used: %c\n", optopt);
+                // redirect to Global Variable
             }
         }
     }
-    
-    printf ("\n");
+
+    printf("\n");
 
     return 0;
 }
