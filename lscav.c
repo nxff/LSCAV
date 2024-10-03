@@ -111,5 +111,7 @@ int main(int argc, char** argv)
 
     puts(str); // Print the unrecognized option if any exist
 
+    pause();
+
     return 0;
 }
