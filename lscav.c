@@ -9,8 +9,8 @@
 // copies of the Software, and to permit persons to whom the Software is
 // furnished to do so, subject to the following conditions:
 
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
 
 // THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 // IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -26,10 +26,7 @@
 #include <sys/utsname.h>
 #include <unistd.h>
 
-void print_usage()
-{
-    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
-}
+void print_usage() { printf("\nUsage: ./lscav [-u users] [-g groups]\n\n"); }
 
 void kernel_info()
 {
@@ -61,7 +58,8 @@ int main(int argc, char** argv)
 
     int option = 0;
 
-    int uflag = 0, gflag = 0, dflag = 0, kflag = 0; // Argument Flags (Including Default Flag)
+    int uflag = 0, gflag = 0, dflag = 0,
+        kflag = 0; // Argument Flags (Including Default Flag)
 
     char str[80]; // Default Message
 
@@ -77,7 +75,7 @@ int main(int argc, char** argv)
             if (kflag) {
             } else {
                 kflag++;
-                printf ("\n");
+                printf("\n");
                 kernel_info();
             }
             break;
@@ -102,7 +100,8 @@ int main(int argc, char** argv)
             if (dflag) {
             } else {
                 dflag++;
-                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n", optopt);
+                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n",
+                    optopt);
             }
         }
     }
