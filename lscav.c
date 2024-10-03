@@ -26,7 +26,10 @@
 #include <sys/utsname.h>
 #include <unistd.h>
 
-void print_usage() { printf("\nUsage: ./lscav [-u users] [-g groups]\n\n"); }
+void print_usage()
+{
+    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
+}
 
 void kernel_info()
 {
