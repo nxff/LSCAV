@@ -28,7 +28,6 @@
 
 void print_usage()
 {
-
     printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
 }
 
@@ -51,7 +50,7 @@ int main(int argc, char** argv)
 
 {
 
-    // If there are no arguments, print the default usage message and exit
+    // If there are no arguments, print the default usage message and exits
 
     if (argc < 2) {
         print_usage();
