@@ -28,6 +28,7 @@
 
 void print_usage()
 {
+
     printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
 }
 
