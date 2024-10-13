@@ -26,43 +26,28 @@
 #include <sys/utsname.h>
 #include <unistd.h>
 
-void print_usage()
-{
-    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
-}
+/// All Function Prototypes ///
 
-void kernel_info()
-{
-    struct utsname uts;
+void kernel_info();
+void print_usage();
 
-    if (uname(&uts) < 0)
-        perror("uname() error");
-    else {
-        printf("OS:            %s\n", uts.sysname);
-        printf("Hostname:      %s\n", uts.nodename);
-        printf("Release:       %s\n", uts.release);
-        printf("Version:       %s\n", uts.version);
-        printf("Architecture:  %s\n", uts.machine);
-    }
-}
+/// Main Function ///
 
 int main(int argc, char** argv)
 
 {
+    opterr = 0; // No Default Error Message (getopt)
 
-    // If there are no arguments, print the default usage message and exits
+    int option = 0, uflag = 0, gflag = 0, dflag = 0, kflag = 0; // All values set to 0
+
+    // If there are no arguments, print the default usage message and exit
 
     if (argc < 2) {
         print_usage();
         exit(1);
     }
 
-    opterr = 0; // No Default Error Message
-
-    int option = 0;
-
-    int uflag = 0, gflag = 0, dflag = 0,
-        kflag = 0; // Argument Flags (Including Default Flag)
+    // Argument Flags (Including Default Flag)
 
     char str[80]; // Default Message
 
@@ -103,15 +88,38 @@ int main(int argc, char** argv)
             if (dflag) {
             } else {
                 dflag++;
-                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n",
-                    optopt);
+                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n", optopt);
             }
         }
     }
 
     puts(str); // Print the unrecognized option if any exist
 
-    pause();
-
     return 0;
+}
+
+/// All Function Definitions ///
+
+void print_usage()
+{
+    // Print Usage Function
+
+    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
+}
+
+void kernel_info()
+{
+    // Kernel Information Function
+
+    struct utsname uts;
+
+    if (uname(&uts) < 0)
+        perror("uname() error");
+    else {
+        printf("OS:            %s\n", uts.sysname);
+        printf("Hostname:      %s\n", uts.nodename);
+        printf("Release:       %s\n", uts.release);
+        printf("Version:       %s\n", uts.version);
+        printf("Architecture:  %s\n", uts.machine);
+    }
 }
