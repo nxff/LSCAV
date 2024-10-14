@@ -141,7 +141,7 @@ void user_info() {
   uid_t uid = 1000;
 
   if ((p = getpwuid(uid)) == NULL)
-    perror("getpwuid() error");
+    perror("ERROR: NO_USER_INFO_FOUND_FOR_1000_ID");
   else {
     printf("Username        : %s\n", p->pw_name);
     printf("UID             : %d\n", (int)p->pw_uid);
