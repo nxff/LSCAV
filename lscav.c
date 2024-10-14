@@ -33,93 +33,93 @@ void print_usage();
 
 /// Main Function ///
 
-int main(int argc, char** argv)
+int main(int argc, char **argv)
 
 {
-    opterr = 0; // No Default Error Message (getopt)
+  opterr = 0; // No Default Error Message (getopt)
 
-    int option = 0, uflag = 0, gflag = 0, dflag = 0, kflag = 0; // All values set to 0
+  int option = 0, uflag = 0, gflag = 0, dflag = 0,
+      kflag = 0; // All values set to 0
 
-    // If there are no arguments, print the default usage message and exit
+  // If there are no arguments, print the default usage message and exit
 
-    if (argc < 2) {
-        print_usage();
-        exit(1);
-    }
+  if (argc < 2) {
+    print_usage();
+    exit(1);
+  }
 
-    // Argument Flags (Including Default Flag)
+  // Argument Flags (Including Default Flag)
 
-    char str[80]; // Default Message
+  char str[80]; // Default Message
 
-    while ((option = getopt(argc, argv, "-:kug")) != -1)
+  while ((option = getopt(argc, argv, "-:kug")) != -1)
+
+  {
+
+    switch (option)
 
     {
 
-        switch (option)
+    case 'k':
+      if (kflag) {
+      } else {
+        kflag++;
+        printf("\n");
+        kernel_info();
+      }
+      break;
 
-        {
+    case 'u':
+      if (uflag) {
+      } else {
+        uflag++;
+        printf("\n[USER_LIST]\n");
+      }
+      break;
 
-        case 'k':
-            if (kflag) {
-            } else {
-                kflag++;
-                printf("\n");
-                kernel_info();
-            }
-            break;
+    case 'g':
+      if (gflag) {
+      } else {
+        gflag++;
+        printf("\n[GROUP_LIST]\n");
+      }
+      break;
 
-        case 'u':
-            if (uflag) {
-            } else {
-                uflag++;
-                printf("\n[USER_LIST]\n");
-            }
-            break;
-
-        case 'g':
-            if (gflag) {
-            } else {
-                gflag++;
-                printf("\n[GROUP_LIST]\n");
-            }
-            break;
-
-        default:
-            if (dflag) {
-            } else {
-                dflag++;
-                snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n", optopt);
-            }
-        }
+    default:
+      if (dflag) {
+      } else {
+        dflag++;
+        snprintf(str, 80, "\n---\n\nWARNING: Bad input detected! -%c\n",
+                 optopt);
+      }
     }
+  }
 
-    puts(str); // Print the unrecognized option if any exist
+  puts(str); // Print the unrecognized option if any exist
 
-    return 0;
+  return 0;
 }
 
 /// All Function Definitions ///
 
-void print_usage()
-{
-    // Print Usage Function
+void print_usage() {
+  // Print Usage Function
 
-    printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
+  printf("\nUsage: ./lscav [-u users] [-g groups]\n\n");
 }
 
-void kernel_info()
-{
-    // Kernel Information Function
+void kernel_info() {
+  // Kernel Information Function
 
-    struct utsname uts;
+  struct utsname uts;
 
-    if (uname(&uts) < 0)
-        perror("uname() error");
-    else {
-        printf("OS:            %s\n", uts.sysname);
-        printf("Hostname:      %s\n", uts.nodename);
-        printf("Release:       %s\n", uts.release);
-        printf("Version:       %s\n", uts.version);
-        printf("Architecture:  %s\n", uts.machine);
-    }
+  if (uname(&uts) < 0)
+    perror("uname() error");
+  else {
+    printf("OS:            %s\n", uts.sysname);
+    printf("Hostname:      %s\n", uts.nodename);
+    printf("Release:       %s\n", uts.release);
+    printf("Version:       %s\n", uts.version);
+    printf("Architecture:  %s\n", uts.machine);
+  }
 }
