@@ -143,6 +143,7 @@ void user_info() {
   if ((p = getpwuid(uid)) == NULL)
     perror("ERROR: NO_USER_INFO_FOUND_FOR_1000_ID");
   else {
+    printf("Information     : %s\n", p->pw_gecos);
     printf("Username        : %s\n", p->pw_name);
     printf("UID             : %d\n", (int)p->pw_uid);
     printf("GID             : %d\n", (int)p->pw_gid);
