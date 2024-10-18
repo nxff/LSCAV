@@ -32,9 +32,7 @@
 /// All Function Prototypes ///
 
 void print_usage();
-
 void kernel_info();
-
 void all_users();
 void regular_users();
 
@@ -135,18 +133,18 @@ void print_usage()
 {
     // Print Usage Function
 
-    printf ("\nUsage: ./lscav \n\n");
-    printf ("	[-u List All Users] \n");
-    printf ("	[-r List Regular Users Only] \n");
-    printf ("	[-k List Available Kernel Information] \n");
-    printf ("	[-t testing_temporary]");
+    printf("\nUsage: ./lscav\n\n");
+    printf("	[-u List All Users] \n");
+    printf("	[-r List Regular Users Only] \n");
+    printf("	[-k List Available Kernel Information] \n");
+    printf("	[-t testing_temporary]");
 }
 
 void kernel_info()
 {
     // Kernel Information Function
 
-    printf("--- Kernel Information --- \n\n");
+    printf("\n--- Kernel Information ---\n\n");
 
     struct utsname uts;
 
@@ -164,6 +162,8 @@ void kernel_info()
 
 void regular_users()
 {
+	// Regular Users Information Function
+	
     printf("\n--- Regular User List ---\n\n");
 
     struct passwd *p_single;
@@ -187,6 +187,8 @@ void regular_users()
 void all_users()
 
 {
+	// All Users Information Function
+	
     printf("\n--- Full User List ---\n\n");
 
     struct passwd *p_loop;
