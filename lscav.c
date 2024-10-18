@@ -22,6 +22,7 @@
 
 #include <getopt.h>
 #include <pwd.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -33,6 +34,7 @@
 void kernel_info();
 void print_usage();
 void user_info();
+void user_list();
 
 /// Main Function ///
 
@@ -83,7 +85,7 @@ int main(int argc, char **argv)
             {
                 lflag++;
                 printf("\n");
-                user_info();
+                user_list();
             }
             break;
 
@@ -155,19 +157,36 @@ void kernel_info()
 
 void user_info()
 {
-    struct passwd *p;
+    struct passwd *p_single;
 
     uid_t uid = 1000;
 
-    if ((p = getpwuid(uid)) == NULL)
+    if ((p_single = getpwuid(uid)) == NULL)
         perror("ERROR: NO_USER_INFO_FOUND_FOR_1000_ID");
     else
     {
-        printf("Information     : %s\n", p->pw_gecos);
-        printf("Username        : %s\n", p->pw_name);
-        printf("UID             : %d\n", (int)p->pw_uid);
-        printf("GID             : %d\n", (int)p->pw_gid);
-        printf("Home Directory  : %s\n", p->pw_dir);
-        printf("Default Shell   : %s\n", p->pw_shell);
+        printf("Information     : %s\n", p_single->pw_gecos);
+        printf("Username        : %s\n", p_single->pw_name);
+        printf("UID             : %d\n", (int)p_single->pw_uid);
+        printf("GID             : %d\n", (int)p_single->pw_gid);
+        printf("Home Directory  : %s\n", p_single->pw_dir);
+        printf("Default Shell   : %s\n", p_single->pw_shell);
+    }
+}
+
+void user_list()
+
+{
+    struct passwd *p_loop;
+
+    while ((p_loop = getpwent()) != NULL)
+    {
+        printf("Information     : %s\n", p_loop->pw_gecos);
+        printf("Username        : %s\n", p_loop->pw_name);
+        printf("UID             : %d\n", (int)p_loop->pw_uid);
+        printf("GID             : %d\n", (int)p_loop->pw_gid);
+        printf("Home Directory  : %s\n", p_loop->pw_dir);
+        printf("Default Shell   : %s\n", p_loop->pw_shell);
+        printf("----------\n");
     }
 }
