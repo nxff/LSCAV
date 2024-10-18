@@ -31,10 +31,12 @@
 
 /// All Function Prototypes ///
 
-void kernel_info();
 void print_usage();
-void user_info();
-void user_list();
+
+void kernel_info();
+
+void all_users();
+void regular_users();
 
 /// Main Function ///
 
@@ -43,7 +45,7 @@ int main(int argc, char **argv)
 {
     opterr = 0; // No Default Error Message (getopt)
 
-    int option = 0, uflag = 0, gflag = 0, dflag = 0, kflag = 0, lflag = 0;
+    int option = 0, uflag = 0, rflag = 0, dflag = 0, kflag = 0, tflag = 0;
 
     // All values set to 0
 
@@ -59,7 +61,7 @@ int main(int argc, char **argv)
 
     char str[80]; // Default Message
 
-    while ((option = getopt(argc, argv, "-:kugl")) != -1)
+    while ((option = getopt(argc, argv, "-:kurt")) != -1)
 
     {
         switch (option)
@@ -77,15 +79,13 @@ int main(int argc, char **argv)
             }
             break;
 
-        case 'l':
-            if (lflag)
+        case 't':
+            if (tflag)
             {
             }
             else
             {
-                lflag++;
-                printf("\n");
-                user_list();
+                printf("\n[TEMPORARY]\n");
             }
             break;
 
@@ -96,18 +96,19 @@ int main(int argc, char **argv)
             else
             {
                 uflag++;
-                printf("\n[USER_LIST]\n");
+                printf("\n");
+                all_users();
             }
             break;
 
-        case 'g':
-            if (gflag)
+        case 'r':
+            if (rflag)
             {
             }
             else
             {
-                gflag++;
-                printf("\n[GROUP_LIST]\n");
+                rflag++;
+                regular_users();
             }
             break;
 
@@ -134,12 +135,18 @@ void print_usage()
 {
     // Print Usage Function
 
-    printf("\nUsage: ./lscav [-u users] [-g groups] [-l uinfo] \n\n");
+    printf ("\nUsage: ./lscav \n\n");
+    printf ("	[-u List All Users] \n");
+    printf ("	[-r List Regular Users Only] \n");
+    printf ("	[-k List Available Kernel Information] \n");
+    printf ("	[-t testing_temporary]");
 }
 
 void kernel_info()
 {
     // Kernel Information Function
+
+    printf("--- Kernel Information --- \n\n");
 
     struct utsname uts;
 
@@ -155,38 +162,43 @@ void kernel_info()
     }
 }
 
-void user_info()
+void regular_users()
 {
+    printf("\n--- Regular User List ---\n\n");
+
     struct passwd *p_single;
 
-    uid_t uid = 1000;
+    uid_t uid = 1000; // Start Point for Regular Users
 
-    if ((p_single = getpwuid(uid)) == NULL)
-        perror("ERROR: NO_USER_INFO_FOUND_FOR_1000_ID");
-    else
+    while ((p_single = getpwuid(uid)) != NULL)
     {
-        printf("Information     : %s\n", p_single->pw_gecos);
+
         printf("Username        : %s\n", p_single->pw_name);
         printf("UID             : %d\n", (int)p_single->pw_uid);
         printf("GID             : %d\n", (int)p_single->pw_gid);
         printf("Home Directory  : %s\n", p_single->pw_dir);
         printf("Default Shell   : %s\n", p_single->pw_shell);
+        printf("Information     : %s\n", p_single->pw_gecos);
+        printf("\n");
+        uid++;
     }
 }
 
-void user_list()
+void all_users()
 
 {
+    printf("\n--- Full User List ---\n\n");
+
     struct passwd *p_loop;
 
     while ((p_loop = getpwent()) != NULL)
     {
-        printf("Information     : %s\n", p_loop->pw_gecos);
         printf("Username        : %s\n", p_loop->pw_name);
         printf("UID             : %d\n", (int)p_loop->pw_uid);
         printf("GID             : %d\n", (int)p_loop->pw_gid);
         printf("Home Directory  : %s\n", p_loop->pw_dir);
         printf("Default Shell   : %s\n", p_loop->pw_shell);
-        printf("----------\n");
+        printf("Information     : %s\n", p_loop->pw_gecos);
+        printf("\n");
     }
 }
