@@ -29,21 +29,21 @@
 #include <sys/utsname.h>
 #include <unistd.h>
 
-/// All Function Prototypes ///
+///--- Prototypes ---///
 
 void print_usage();
-void kernel_info();
+void system_info();
 void all_users();
 void regular_users();
 
-/// Main Function ///
+///--- Main ---///
 
 int main(int argc, char **argv)
 
 {
     opterr = 0; // No Default Error Message (getopt)
 
-    int option = 0, uflag = 0, rflag = 0, dflag = 0, kflag = 0, tflag = 0;
+    int option = 0, dflag = 0, tflag = 0, uflag = 0, rflag = 0, sflag = 0;
 
     // All values set to 0
 
@@ -59,31 +59,21 @@ int main(int argc, char **argv)
 
     char str[80]; // Default Message
 
-    while ((option = getopt(argc, argv, "-:kurt")) != -1)
+    while ((option = getopt(argc, argv, "-:surt")) != -1)
 
     {
         switch (option)
 
         {
-        case 'k':
-            if (kflag)
+        case 's':
+            if (sflag)
             {
             }
             else
             {
-                kflag++;
+                sflag++;
                 printf("\n");
-                kernel_info();
-            }
-            break;
-
-        case 't':
-            if (tflag)
-            {
-            }
-            else
-            {
-                printf("\n[TEMPORARY]\n");
+                system_info();
             }
             break;
 
@@ -106,7 +96,18 @@ int main(int argc, char **argv)
             else
             {
                 rflag++;
+                printf("\n");
                 regular_users();
+            }
+            break;
+
+        case 't':
+            if (tflag)
+            {
+            }
+            else
+            {
+                printf("\n[TEMPORARY]\n");
             }
             break;
 
@@ -127,7 +128,7 @@ int main(int argc, char **argv)
     return 0;
 }
 
-/// All Function Definitions ///
+///--- Function Definitions ---///
 
 void print_usage()
 {
@@ -136,15 +137,15 @@ void print_usage()
     printf("\nUsage: ./lscav\n\n");
     printf("	[-u List All Users] \n");
     printf("	[-r List Regular Users Only] \n");
-    printf("	[-k List Available Kernel Information] \n");
+    printf("	[-k List System Information] \n");
     printf("	[-t testing_temporary]");
 }
 
-void kernel_info()
+void system_info()
 {
-    // Kernel Information Function
+    // This function lists important System Information
 
-    printf("\n--- Kernel Information ---\n\n");
+    printf("\n--- System Information ---\n\n");
 
     struct utsname uts;
 
@@ -157,38 +158,15 @@ void kernel_info()
         printf("Release         : %s\n", uts.release);
         printf("Version         : %s\n", uts.version);
         printf("Architecture    : %s\n", uts.machine);
-    }
-}
-
-void regular_users()
-{
-	// Regular Users Information Function
-	
-    printf("\n--- Regular User List ---\n\n");
-
-    struct passwd *p_single;
-
-    uid_t uid = 1000; // Start Point for Regular Users
-
-    while ((p_single = getpwuid(uid)) != NULL)
-    {
-
-        printf("Username        : %s\n", p_single->pw_name);
-        printf("UID             : %d\n", (int)p_single->pw_uid);
-        printf("GID             : %d\n", (int)p_single->pw_gid);
-        printf("Home Directory  : %s\n", p_single->pw_dir);
-        printf("Default Shell   : %s\n", p_single->pw_shell);
-        printf("Information     : %s\n", p_single->pw_gecos);
         printf("\n");
-        uid++;
     }
 }
 
 void all_users()
 
 {
-	// All Users Information Function
-	
+    // This function lists all users on the system.
+
     printf("\n--- Full User List ---\n\n");
 
     struct passwd *p_loop;
@@ -204,3 +182,30 @@ void all_users()
         printf("\n");
     }
 }
+
+void regular_users()
+{
+    // This function lists only regular users on the system.
+
+    printf("\n--- Regular User List ---\n\n");
+
+    struct passwd *p_single;
+
+    uid_t uid = 1000; // Scan from this UID onwards.
+
+    while ((p_single = getpwuid(uid)) != NULL)
+    {
+
+        printf("Username        : %s\n", p_single->pw_name);
+        printf("UID             : %d\n", (int)p_single->pw_uid);
+        printf("GID             : %d\n", (int)p_single->pw_gid);
+        printf("Home Directory  : %s\n", p_single->pw_dir);
+        printf("Default Shell   : %s\n", p_single->pw_shell);
+        printf("Information     : %s\n", p_single->pw_gecos);
+        printf("\n");
+        uid++;
+    }
+}
+
+// https://man7.org/linux/man-pages/man3/getgrouplist.3.html
+// Should it be with options or not?
