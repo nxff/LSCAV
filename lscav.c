@@ -41,11 +41,11 @@ void regular_users();
 int main(int argc, char **argv)
 
 {
+    // All values set to 0
+
     opterr = 0; // No Default Error Message (getopt)
 
     int option = 0, dflag = 0, tflag = 0, uflag = 0, rflag = 0, sflag = 0;
-
-    // All values set to 0
 
     // If there are no arguments, print the default usage message and exit
 
