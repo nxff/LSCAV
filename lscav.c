@@ -132,7 +132,7 @@ int main(int argc, char **argv)
 
 void print_usage()
 {
-    // Print Usage Function
+    // This function prints standard Usage Information
 
     printf("\nUsage: ./lscav\n\n");
     printf("	[-u List All Users] \n");
