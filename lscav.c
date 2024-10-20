@@ -137,8 +137,9 @@ void print_usage()
     printf("\nUsage: ./lscav\n\n");
     printf("	[-u List All Users] \n");
     printf("	[-r List Regular Users Only] \n");
-    printf("	[-k List System Information] \n");
-    printf("	[-t testing_temporary]");
+    printf("	[-s List System Information] \n");
+    printf("	[-t testing_temporary]\n");
+    printf("\n");
 }
 
 void system_info()
@@ -195,7 +196,6 @@ void regular_users()
 
     while ((p_single = getpwuid(uid)) != NULL)
     {
-
         printf("Username        : %s\n", p_single->pw_name);
         printf("UID             : %d\n", (int)p_single->pw_uid);
         printf("GID             : %d\n", (int)p_single->pw_gid);
@@ -208,4 +208,3 @@ void regular_users()
 }
 
 // https://man7.org/linux/man-pages/man3/getgrouplist.3.html
-// Should it be with options or not?
