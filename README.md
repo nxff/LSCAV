@@ -1,6 +1,6 @@
 ### LSCAV
 
-LSCAV is a comprehensive enumeration tool developed for Secure Linux Administration
+A Comprehensive Enumeration Tool for Linux
 
 	// Information
 
