@@ -2,7 +2,7 @@
 
 A Comprehensive Enumeration Tool for Linux 
 
-// Information
+	// Information
 
 	- System Information
 	
